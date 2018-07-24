@@ -1,8 +1,6 @@
-## Endpoints to add
+## Endpoints to add or tweak
 
-- `newMine`: we'll need to be able to associate multiple file uploads with a single entity. Relying on a session probably isn't safe due to potentially long file uploads.
-- `saveFileProperties`: following on from `detectFileProperties`, we need to save a set of configs associated with a file. This can be run multiple times, as the user may upload an unknown number of files.
-- `detectFileProperties` - this is part-specified but only thinking about the happy path given a single file type. Think about scenarios where the file can't be read or isn't recognised.
+- `detectFileProperties` - this is part-specified but only thinking about the happy path given a single file type. Think about scenarios where the file can't be read or isn't recognised. Other filetypes can be considered longer term? 
 - `supplementaryDataSources` GET- e.g. uniprot, pubmed, GO, etc.
 - `supplementaryDataSources` POST - save if defaults aren't correct and user changes them.
 - `dataTools` GET - list tools appropriate to the user's data types

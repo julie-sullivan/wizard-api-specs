@@ -14,6 +14,19 @@ schemes:
 - "https"
 - "http"
 paths:
+  /newMineConfig:
+    get:
+      summary: "Start new mine build config entry"
+      description: "Create a new entry for a set of uploaded files and associated configs to launch a new mine. This can allocate an id which all file uploads will be associated with."
+      operationId: "newMineConfig"
+      produces:
+      - "application/json"
+      - "application/xml"
+      responses:
+        200:
+          description: "New mineconfig instance created"
+          schema:
+            $ref: "#/definitions/MineConfig"
   /detectFileProperties:
     post:
       summary: "Return identified file type"
@@ -38,6 +51,27 @@ paths:
           description: "successfully detected file type"
           schema:
             $ref: "#/definitions/DataFileProperties"
+  /saveFileProperties:
+    post:
+      summary: "Save file properties to a given InterMine pre-build config"
+      description: "Following on from `detectFileProperties`, we need to save a set of configs associated with a file. This can be run multiple times, as the user may upload an unknown number of files."
+      operationId: "saveFileProperties"
+      consumes:
+      - "application/json"
+      - "application/xml"
+      produces:
+      - "application/json"
+      - "application/xml"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "File or file snippet that needs to be identified."
+        required: true
+        schema:
+            $ref: "#/definitions/DataFilePropertiesResponse"
+      responses:
+        200:
+          description: "successfully saved provided DataFileProperties details"
 definitions:
   DataFile:
     type: "object"
@@ -59,6 +93,8 @@ definitions:
     - "fileFormat"
     - "rowCount"
     - "organism"
+    - "fileID"
+    - "mineID"
     properties:
       name:
         type: "string"
@@ -90,10 +126,10 @@ definitions:
         items:
           type: "object"
           properties:
-            columnName:
+            fileColumnName:
               type: "string"
               example: "GeneID"
-            columnExample:
+            fileColumnExample:
               type: "string"
               example: "100287102"
             modelClassToMapTo:
@@ -102,9 +138,21 @@ definitions:
             modelPropertyToMapTo:
               type: "array"
               items:
-                type: "string"
-                example: ["Gene Primary Identifier","Symbol",
- "Synonym"]
+                type: "object" # I've added human name and computer name here.
+                               # originally I thought "Can't we get it from the
+                               # model? But we don't have a model yet. Or
+                               # maybe there is a master lookup doc for human
+                               # name to computer name mappings?
+                properties:
+                  humanName:
+                    type: "string"
+                  modelName:
+                    type: "string"
+                example: [{humanName:"Gene Primary Identifier", modelName:"primaryIdentifier"},{humanName: "Symbol", modelName: "symbol"}, {humanName: "Synonym", modelName:"synonym"}]
+                  # also, is synonym an array? Actually that probably doesn't
+                  # matter, we are only adding one property to it not
+                  # creating the array
+
             defaultMapping:
               type: "string"
       organism:
@@ -119,5 +167,68 @@ definitions:
           taxonID:
             type: "integer"
             example: "9606"
+      fileID:
+        type: "integer"
+      mineID:
+        type: "integer"
     xml:
       name: "DataFileProperties"
+  DataFilePropertiesResponse:
+    type: "object"
+    required:
+    - "fileID"
+    - "mineID"
+    properties:
+      mappedColumns:
+        type: "array"
+        items:
+          type: "object"
+          properties:
+            fileColumnName:
+              type: "string"
+              example: "GeneID"
+            modelClassToMapTo:
+              type: "string"
+              example: "Gene" #Will this ever be nested i.e. Gene.subClass?
+            modelPropertyToMapTo:
+              type: "string"
+              nullable: true #set to null = no mapping, whereas don't set at all == accept default?
+              example: "primaryIdentifier"
+      organism:
+        type: "object"
+        properties:
+          genomeBuild: #Does genome build imply taxon? If so, remove taxon from spec below?
+            type: "string"
+            example: "GRCh38.p7"
+          taxonID:
+            type: "integer"
+            example: "9606"
+      fileID:
+        type: "integer"
+      mineID:
+        type: "integer"
+    xml:
+      name: "DataFilePropertiesResponse"
+  MineConfig:
+    type: "object"
+    required:
+      - "id"
+    properties:
+      name:
+        type: "string"
+        example: "MyFirstMine"
+      lab:
+        type: "string"
+        example: "AliceLab"
+      mineUrl:
+        type: "string"
+        example: "myfirstmine.alicelab.intermine.org"
+      privacy:
+        type: "string"
+        enum: ["private","unlisted","public"]
+        example: "private"
+      licence:
+        type: "string"
+        example: "unlisted"
+    xml:
+      name: "MineConfig"
