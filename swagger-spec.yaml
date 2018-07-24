@@ -16,11 +16,9 @@ schemes:
 paths:
   /detectFileProperties:
     post:
-      tags:
-      - "pet"
       summary: "Return identified file type"
       description: ""
-      operationId: "addPet"
+      operationId: "detectFileProperties"
       consumes:
       - "application/json"
       - "application/xml"
