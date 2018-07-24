@@ -1,0 +1,125 @@
+swagger: "2.0"
+info:
+  description: "ISA-InterMine Data import wizard prototype spec"
+  version: "0.1.0"
+  title: "InterMine Import Wizard API Specs - working draft"
+  contact:
+    email: "info@intermine.org"
+  license:
+    name: "LGPL 2.1"
+    url: "https://github.com/intermine/intermine/blob/dev/LICENSE"
+host: "wizard.intermine.org"
+basePath: "/v1"
+schemes:
+- "https"
+- "http"
+paths:
+  /detectFileProperties:
+    post:
+      tags:
+      - "pet"
+      summary: "Return identified file type"
+      description: ""
+      operationId: "addPet"
+      consumes:
+      - "application/json"
+      - "application/xml"
+      - "multipart/form-data"
+      produces:
+      - "application/json"
+      - "application/xml"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "File or file snippet that needs to be identified."
+        required: true
+        schema:
+          $ref: "#/definitions/DataFile"
+      responses:
+        200:
+          description: "successfully detected file type"
+          schema:
+            $ref: "#/definitions/DataFileProperties"
+definitions:
+  DataFile:
+    type: "object"
+    required:
+    - "name"
+    - "fileContents"
+    properties:
+      name:
+        type: "string"
+        example: "humanfile.gff"
+      fileContents:
+        type: "string"
+    xml:
+      name: "DataFile"
+  DataFileProperties:
+    type: "object"
+    required:
+    - "name"
+    - "fileFormat"
+    - "rowCount"
+    - "organism"
+    properties:
+      name:
+        type: "string"
+        example: "humanfile.gff"
+      fileFormat:
+        type: "string"
+        example: "gff"
+      rowCount:
+        type: "integer"
+        example: 22395
+      filePreview:
+        type: "object"
+        properties:
+          headerRow:
+              type: "array"
+              items:
+                type: "string"
+                example: ["seqID", "source", "type", "start", "end", "score", "strand", "phase"]
+          rows:
+            type: "array"
+            items:
+              type: "array"
+              items:
+                type: "string"
+                example: ["NC_000001.11", "RefSeq", "region  1", "248956422", ".", "+", ".", "ID=id0;Dbxref=taxon:9606;Name=1;chromosome=1;gbkey=Src;genome=chromosome;mol_type=genomic DNA"]
+
+      columnsToMap:
+        type: "array"
+        items:
+          type: "object"
+          properties:
+            columnName:
+              type: "string"
+              example: "GeneID"
+            columnExample:
+              type: "string"
+              example: "100287102"
+            modelClassToMapTo:
+              type: "string"
+              example: "Gene"
+            modelPropertyToMapTo:
+              type: "array"
+              items:
+                type: "string"
+                example: ["Gene Primary Identifier","Symbol",
+ "Synonym"]
+            defaultMapping:
+              type: "string"
+      organism:
+        type: "object"
+        properties:
+          name:
+            type: "string"
+            example: "H. Sapiens"
+          genomeBuild:
+            type: "string"
+            example: "GRCh38.p7"
+          taxonID:
+            type: "integer"
+            example: "9606"
+    xml:
+      name: "DataFileProperties"
