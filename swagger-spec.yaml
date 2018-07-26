@@ -72,9 +72,9 @@ paths:
       responses:
         200:
           description: "successfully saved provided DataFileProperties details"
-  /supplementaryDataSource:
+  /supplementaryDataSources:
     get:
-      summary: "Get list of possible suppelementary data sources for this mine config"
+      summary: "Get list of possible supplementary data sources for this mine config"
       description: "Returns a list of possible external data sources to add to this mine, e.g. GO terms, publications, etc."
       operationId: "getSupplementaryDataSources"
       produces:
@@ -85,6 +85,18 @@ paths:
           description: "Success"
           schema:
             $ref: "#/definitions/SupplementaryDataSources"
+    post:
+      summary: "set list of desired supplementary data sources"
+      description: "Saves a list of possible external data sources to add to this mine, e.g. GO terms, publications, etc."
+      operationId: "setSupplementaryDataSources"
+      produces:
+      - "application/json"
+      - "application/xml"
+      responses:
+        200:
+          description: "Success"
+          schema:
+            $ref: "#/definitions/SupplementaryDataSourcesResponse"
 definitions:
   DataFile:
     type: "object"
@@ -246,6 +258,12 @@ definitions:
     xml:
       name: "MineConfig"
   SupplementaryDataSources:
+    type: array
+    items:
+      $ref: '#/definitions/SupplementaryDataSource'
+    xml:
+      name: "SupplementaryDataSources"
+  SupplementaryDataSource:
     type: "object"
     required:
     - "humanName"
@@ -267,3 +285,8 @@ definitions:
         example: "http://geneontology.org/page/go-annotations"
     xml:
       name: "SupplementaryDataSources"
+  SupplementaryDataSourcesResponse:
+    type: "array"
+    items:
+        type: "string"
+    example: ["GOAnnotations", "PubMed"]
