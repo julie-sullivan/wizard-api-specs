@@ -72,6 +72,19 @@ paths:
       responses:
         200:
           description: "successfully saved provided DataFileProperties details"
+  /supplementaryDataSource:
+    get:
+      summary: "Get list of possible suppelementary data sources for this mine config"
+      description: "Returns a list of possible external data sources to add to this mine, e.g. GO terms, publications, etc."
+      operationId: "getSupplementaryDataSources"
+      produces:
+      - "application/json"
+      - "application/xml"
+      responses:
+        200:
+          description: "Success"
+          schema:
+            $ref: "#/definitions/SupplementaryDataSources"
 definitions:
   DataFile:
     type: "object"
@@ -229,6 +242,28 @@ definitions:
         example: "private"
       licence:
         type: "string"
-        example: "unlisted"
+        example: "CC0"
     xml:
       name: "MineConfig"
+  SupplementaryDataSources:
+    type: "object"
+    required:
+    - "humanName"
+    - "modelName"
+    - "description"
+    - "url"
+    properties:
+      humanName:
+        type: "string"
+        example: "GO annotations"
+      modelName:
+        type: "string"
+        example: "GOAnnotations"
+      description:
+        type: "string"
+        example: "A GO annotation is a statement about the function of a particular gene. "
+      url:
+        type: "string"
+        example: "http://geneontology.org/page/go-annotations"
+    xml:
+      name: "SupplementaryDataSources"
