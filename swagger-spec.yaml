@@ -108,6 +108,11 @@ paths:
               $ref: '#/components/schemas/DataFilePropertiesResponse'
         description: File or file snippet that needs to be identified.
         required: true
+  /saveFile:
+    post:
+      summary: Upload File that has properties mapped
+      description: >-
+        Finalise upload for a file that has already had its properties detected and mapped.
   /supplementaryDataSources:
     get:
       summary: Get list of possible supplementary data sources for this mine config
