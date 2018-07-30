@@ -1,0 +1,36 @@
+Visualise using  https://www.websequencediagrams.com/
+=====================================================
+
+
+title New Mine Wizard
+
+Browser->Server: Start new mine config
+Server->Browser: Returns mine config id
+
+loop repeat if more than one file
+note right of Server: Data "sniffing" & validation
+Browser->+Server: Detect file properties
+Server->-Browser: Returns suspected file properties and options
+note left of Browser: User tweaks config
+Browser->Server: Save tweaked configs `saveFileProperties`
+Browser->Server: Save full file
+end
+
+note right of Server: Additional datasources
+Browser->+Server: get supplementary data source list
+Server->-Browser: return supplementary data sources
+note left of Browser: User deselects undesired sources
+Browser->Server: save supplementary data source list
+
+Browser->Server: start build
+
+note left of Browser: User is shown tool selection and mine config screen while build is happening
+
+note right of Server: Select tools
+Browser->+Server: get tools list
+Server->-Browser: return tools list
+note left of Browser: User deselects undesired tools
+Browser->Server: save tool list
+
+note left of Browser: User types config
+Browser->Server: save mine config
