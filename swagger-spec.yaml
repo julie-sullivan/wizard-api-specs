@@ -9,24 +9,56 @@ info:
     name: LGPL 2.1
     url: 'https://github.com/intermine/intermine/blob/dev/LICENSE'
 paths:
-  /newMineConfig:
-    get:
+  /mineConfig:
+    post:
       summary: Start new mine build config entry
       description: >-
         Create a new entry for a set of uploaded files and associated configs to
         launch a new mine. This can allocate an id which all file uploads will
         be associated with.
-      operationId: newMineConfig
+      operationId: setMineConfig
+      requestBody:
+        description: Config to set for Mine
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MineConfig'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/MineConfig'
       responses:
         '200':
           description: New mineconfig instance created
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/MineConfig'
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/MineConfig'
+            content:
+              application/json:
+                schema:
+                  type: integer
+                  example: 98564512
+              application/xml:
+                schema:
+                  type: integer
+                  example: 98564512
+  /mineConfig/{id}:
+    get:
+      summary: Get mine config
+      description: return configured details (if any) for a given mineconfig id
+      parameters:
+      operationId: getMineConfig
+      - name: id
+        in: path
+        description: ID of mineconfig to fetch
+        required: true
+        schema:
+          type: integer
+          format: int64
+          example: 98564512
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/MineConfig'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/MineConfig'
   /detectFileProperties:
     post:
       summary: Return identified file type
