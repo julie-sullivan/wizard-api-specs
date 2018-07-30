@@ -29,36 +29,39 @@ paths:
       responses:
         '200':
           description: New mineconfig instance created
-            content:
-              application/json:
-                schema:
-                  type: integer
-                  example: 98564512
-              application/xml:
-                schema:
-                  type: integer
-                  example: 98564512
+          content:
+            application/json:
+              schema:
+                type: integer
+                example: 98564512
+            application/xml:
+              schema:
+                type: integer
+                example: 98564512
   /mineConfig/{id}:
     get:
       summary: Get mine config
       description: return configured details (if any) for a given mineconfig id
-      parameters:
       operationId: getMineConfig
-      - name: id
-        in: path
-        description: ID of mineconfig to fetch
-        required: true
-        schema:
-          type: integer
-          format: int64
-          example: 98564512
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/MineConfig'
-        application/xml:
-          schema:
-            $ref: '#/components/schemas/MineConfig'
+      parameters:
+       - name: id
+         in: path
+         description: ID of mineconfig to fetch
+         required: true
+         schema:
+           type: integer
+           format: int64
+           example: 98564512
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MineConfig'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/MineConfig'
   /detectFileProperties:
     post:
       summary: Return identified file type
@@ -113,6 +116,19 @@ paths:
       summary: Upload File that has properties mapped
       description: >-
         Finalise upload for a file that has already had its properties detected and mapped.
+      responses:
+        '200':
+          description: successfully saved provided File
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DataFile'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/DataFile'
+        description: File or file snippet that needs to be identified.
+        required: true
   /supplementaryDataSources:
     get:
       summary: Get list of possible supplementary data sources for this mine config
@@ -146,6 +162,29 @@ paths:
             application/xml:
               schema:
                 $ref: '#/components/schemas/SupplementaryDataSourcesResponse'
+  /checkNameAvailability:
+    post:
+      summary: Check if a given username+minename combo is taken
+      operationId: checkNameAvailability
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MineName'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/MineName'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NameAvailability'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/NameAvailability'
+
 servers:
   - url: 'https://wizard.intermine.org/v1'
   - url: 'http://wizard.intermine.org/v1'
@@ -365,3 +404,22 @@ components:
       example:
         - GOAnnotations
         - PubMed
+    MineName:
+      type: object
+      required:
+        - userName
+        - mineName
+      properties:
+        mineName:
+          type: string
+          example: myFirstDatabase
+        userName:
+          type: string
+          example: AliceLab
+    NameAvailability:
+      type: string
+      enum:
+        - user_taken
+        - minename_taken
+        - both_taken
+        - free

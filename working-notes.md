@@ -8,7 +8,8 @@
  `MyFirstDatabase.AliceLab.intermine.org`, we can pre-populate the `.AliceLab.intermine.org`
 - `mineConfigs` GET - list of all partial or complete mine build configs associated with a given user/lab.
 - `startBuild` POST - trigger the data build to start in the background, possibly while user is configuring other things. Required mine config id.
-- `buildStatus` GET - return if still building or not. Useful for UI to know if it's time to show the full mine or a holding sctreen.
+- `buildStatus` GET - return if still building or not. Useful for UI to know if it's time to show the full mine or a holding screen.
+- `checkNameAvailability` POST - check this lab/mine name combination is available
 
 ## Questions / thoughts to ponder
 
