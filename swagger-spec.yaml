@@ -9,7 +9,7 @@ info:
     name: LGPL 2.1
     url: 'https://github.com/intermine/intermine/blob/dev/LICENSE'
 paths:
-  /mineConfig:
+  /mine/config:
     post:
       summary: Start new mine build config entry
       description: >-
@@ -38,7 +38,7 @@ paths:
               schema:
                 type: integer
                 example: 98564512
-  /mineConfig/{id}:
+  /mine/config/{id}:
     get:
       summary: Get mine config
       description: return configured details (if any) for a given mineconfig id
@@ -62,7 +62,29 @@ paths:
             application/xml:
               schema:
                 $ref: '#/components/schemas/MineConfig'
-  /detectFileProperties:
+  /mine/nameAvailability:
+    post:
+      summary: Check if a given username+minename combo is taken
+      operationId: checkNameAvailability
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MineName'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/MineName'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NameAvailability'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/NameAvailability'
+  /file/properties/detect:
     post:
       summary: Return identified file type
       description: ''
@@ -90,7 +112,7 @@ paths:
               $ref: '#/components/schemas/DataFile'
         description: File or file snippet that needs to be identified.
         required: true
-  /saveFileProperties:
+  /file/properties/save:
     post:
       summary: Save file properties to a given InterMine pre-build config
       description: >-
@@ -111,7 +133,7 @@ paths:
               $ref: '#/components/schemas/DataFilePropertiesResponse'
         description: File or file snippet that needs to be identified.
         required: true
-  /saveFile:
+  /file/save:
     post:
       summary: Upload File that has properties mapped
       description: >-
@@ -162,29 +184,6 @@ paths:
             application/xml:
               schema:
                 $ref: '#/components/schemas/SupplementaryDataSourcesResponse'
-  /checkNameAvailability:
-    post:
-      summary: Check if a given username+minename combo is taken
-      operationId: checkNameAvailability
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/MineName'
-          application/xml:
-            schema:
-              $ref: '#/components/schemas/MineName'
-      responses:
-        '200':
-          description: Success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/NameAvailability'
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/NameAvailability'
-
 servers:
   - url: 'https://wizard.intermine.org/v1'
   - url: 'http://wizard.intermine.org/v1'
