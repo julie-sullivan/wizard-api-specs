@@ -5,6 +5,7 @@ info:
   title: InterMine Import Wizard API Specs - working draft
   contact:
     email: info@intermine.org
+    url: 'http://www.intermine.org'
   license:
     name: LGPL 2.1
     url: 'https://github.com/intermine/intermine/blob/dev/LICENSE'
