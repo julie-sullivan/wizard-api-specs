@@ -12,3 +12,4 @@
 - `File/Properties/detect` - this is part-specified but only thinking about the happy path given a single file type. Think about scenarios where the file can't be read or isn't recognised. Other filetypes can be considered longer term?
 - sometimes will be able to parse first n lines, other times (i.e. gff) w will need to upload the whole file to get all possible column mappings. Need to prototype performance. 
 - should we indicate to the user that there is a certain level of certainty when detecting fields? ie.e very sure, best guess mapping, etc. 
+- how do we accept isa files?
