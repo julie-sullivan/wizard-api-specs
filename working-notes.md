@@ -1,7 +1,4 @@
 ## Endpoints to add
-
-
-- `dataTools` POST - save if defaults aren't correct and user changes them.
 - `mineConfigs` GET - list of all partial or complete mine build configs associated with a given user/lab.
 
 ## Questions / thoughts to ponder

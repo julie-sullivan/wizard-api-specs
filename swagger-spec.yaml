@@ -84,7 +84,7 @@ paths:
             application/xml:
               schema:
                 $ref: '#/components/schemas/NameAvailability'
-  /mine/dataTools/{id}:
+  /mine/dataTools/{mineId}:
     get:
       summary: Retrieve set of tools suitable for the given mine
       responses:
@@ -102,9 +102,33 @@ paths:
                 items:
                   $ref: '#/components/schemas/DataTool'
       parameters:
-       - name: id
+       - name: mineId
          in: path
-         description: ID of mineconfig to fetch
+         description: ID of mineconfig to fetch tools for
+         required: true
+         schema:
+           type: integer
+           format: int64
+           example: 98564512
+
+  /mine/dataTool/{mineId}:
+    post:
+      summary: Set tools to be used for the given mine
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DataToolResponse'
+
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/DataToolResponse'
+      parameters:
+       - name: mineId
+         in: path
+         description: ID of mineconfig to set tools for
          required: true
          schema:
            type: integer
@@ -515,3 +539,8 @@ components:
           example:
             - Gene
             - Gene.homologues.homologue
+    DataToolResponse:
+      type: array
+      items:
+        type: integer
+      description: ids of tools to use in this mine.
