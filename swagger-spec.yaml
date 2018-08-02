@@ -318,6 +318,7 @@ components:
                   - score
                   - strand
                   - phase
+                  - attributes
             rows:
               type: array
               items:
