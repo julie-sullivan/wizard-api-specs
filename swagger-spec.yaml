@@ -499,6 +499,15 @@ components:
       properties:
         toolId:
           type: integer
+        toolName:
+          type: string
+          example: "ProtVista"
+        toolDescription:
+          type: string
+          example: "Protein feature browser"
+        toolPreview:
+          type: string
+          example: "http://toolregistry.intermine.org/protvista.png"
         requiredClasses:
           type: array
           items:
