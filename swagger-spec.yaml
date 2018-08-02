@@ -38,13 +38,13 @@ paths:
               schema:
                 type: integer
                 example: 98564512
-  /mine/config/{id}:
+  /mine/config/{mineId}:
     get:
       summary: Get mine config
       description: return configured details (if any) for a given mineconfig id
       operationId: getMineConfig
       parameters:
-       - name: id
+       - name: mineId
          in: path
          description: ID of mineconfig to fetch
          required: true
@@ -318,7 +318,6 @@ components:
                   - score
                   - strand
                   - phase
-                  - attributes
             rows:
               type: array
               items:

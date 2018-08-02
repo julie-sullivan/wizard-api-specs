@@ -1,0 +1,1232 @@
+<!doctype html>
+<html>
+  <head>
+    <title>InterMine Import Wizard API Specs - working draft</title>
+    <style type="text/css">
+      body {
+	font-family: Trebuchet MS, sans-serif;
+	font-size: 15px;
+	color: #444;
+	margin-right: 24px;
+}
+
+h1	{
+	font-size: 25px;
+}
+h2	{
+	font-size: 20px;
+}
+h3	{
+	font-size: 16px;
+	font-weight: bold;
+}
+hr	{
+	height: 1px;
+	border: 0;
+	color: #ddd;
+	background-color: #ddd;
+}
+
+.app-desc {
+  clear: both;
+  margin-left: 20px;
+}
+.param-name {
+  width: 100%;
+}
+.license-info {
+  margin-left: 20px;
+}
+
+.license-url {
+  margin-left: 20px;
+}
+
+.model {
+  margin: 0 0 0px 20px;
+}
+
+.method {
+  margin-left: 20px;
+}
+
+.method-notes	{
+	margin: 10px 0 20px 0;
+	font-size: 90%;
+	color: #555;
+}
+
+pre {
+  padding: 10px;
+  margin-bottom: 2px;
+}
+
+.http-method {
+ text-transform: uppercase;
+}
+
+pre.get {
+  background-color: #0f6ab4;
+}
+
+pre.post {
+  background-color: #10a54a;
+}
+
+pre.put {
+  background-color: #c5862b;
+}
+
+pre.delete {
+  background-color: #a41e22;
+}
+
+.huge	{
+	color: #fff;
+}
+
+pre.example {
+  background-color: #f3f3f3;
+  padding: 10px;
+  border: 1px solid #ddd;
+}
+
+code {
+  white-space: pre;
+}
+
+.nickname {
+  font-weight: bold;
+}
+
+.method-path {
+  font-size: 1.5em;
+  background-color: #0f6ab4;
+}
+
+.up {
+  float:right;
+}
+
+.parameter {
+  width: 500px;
+}
+
+.param {
+  width: 500px;
+  padding: 10px 0 0 20px;
+  font-weight: bold;
+}
+
+.param-desc {
+  width: 700px;
+  padding: 0 0 0 20px;
+  color: #777;
+}
+
+.param-type {
+  font-style: italic;
+}
+
+.param-enum-header {
+width: 700px;
+padding: 0 0 0 60px;
+color: #777;
+font-weight: bold;
+}
+
+.param-enum {
+width: 700px;
+padding: 0 0 0 80px;
+color: #777;
+font-style: italic;
+}
+
+.field-label {
+  padding: 0;
+  margin: 0;
+  clear: both;
+}
+
+.field-items	{
+	padding: 0 0 15px 0;
+	margin-bottom: 15px;
+}
+
+.return-type {
+  clear: both;
+  padding-bottom: 10px;
+}
+
+.param-header {
+  font-weight: bold;
+}
+
+.method-tags {
+  text-align: right;
+}
+
+.method-tag {
+  background: none repeat scroll 0% 0% #24A600;
+  border-radius: 3px;
+  padding: 2px 10px;
+  margin: 2px;
+  color: #FFF;
+  display: inline-block;
+  text-decoration: none;
+}
+
+    </style>
+  </head>
+  <body>
+  <h1>InterMine Import Wizard API Specs - working draft</h1>
+    <div class="app-desc">ISA-InterMine Data import wizard prototype spec</div>
+    <div class="app-desc">More information: <a href="https://helloreverb.com">https://helloreverb.com</a></div>
+    <div class="app-desc">Contact Info: <a href="info@intermine.org">info@intermine.org</a></div>
+    <div class="app-desc">Version: 0.1.0</div>
+    <div class="app-desc">BasePath:/v1</div>
+    <div class="license-info">LGPL 2.1</div>
+    <div class="license-url">https://github.com/intermine/intermine/blob/dev/LICENSE</div>
+  <h2>Access</h2>
+  
+
+  <h2><a name="__Methods">Methods</a></h2>
+  [ Jump to <a href="#__Models">Models</a> ]
+
+  
+  <h3>Table of Contents </h3>
+  <div class="method-summary"></div>
+  
+  
+  
+  <h4><a href="#Default">Default</a></h4>
+  <ul>
+  
+  <li><a href="#buildStatusGet"><code><span class="http-method">get</span> /build/status</code></a></li>
+  
+  <li><a href="#buildTriggerPost"><code><span class="http-method">post</span> /build/trigger</code></a></li>
+  
+  <li><a href="#checkNameAvailability"><code><span class="http-method">post</span> /mine/nameAvailability</code></a></li>
+  
+  <li><a href="#detectFileProperties"><code><span class="http-method">post</span> /file/properties/detect</code></a></li>
+  
+  <li><a href="#fileSavePost"><code><span class="http-method">post</span> /file/save</code></a></li>
+  
+  <li><a href="#getMineConfig"><code><span class="http-method">get</span> /mine/config/{mineId}</code></a></li>
+  
+  <li><a href="#getSupplementaryDataSources"><code><span class="http-method">get</span> /supplementaryDataSources</code></a></li>
+  
+  <li><a href="#mineDataToolMineIdPost"><code><span class="http-method">post</span> /mine/dataTool/{mineId}</code></a></li>
+  
+  <li><a href="#mineDataToolsMineIdGet"><code><span class="http-method">get</span> /mine/dataTools/{mineId}</code></a></li>
+  
+  <li><a href="#saveFileProperties"><code><span class="http-method">post</span> /file/properties/save</code></a></li>
+  
+  <li><a href="#setMineConfig"><code><span class="http-method">post</span> /mine/config</code></a></li>
+  
+  <li><a href="#setSupplementaryDataSources"><code><span class="http-method">post</span> /supplementaryDataSources</code></a></li>
+  
+  </ul>
+  
+  
+  
+
+  
+  
+  
+  <h1><a name="Default">Default</a></h1>
+  
+  <div class="method"><a name="buildStatusGet"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /build/status</code></pre></div>
+    <div class="method-summary">Retrieve build status of a given mine (<span class="nickname">buildStatusGet</span>)</div>
+    
+    <div class="method-notes"></div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      
+      DataBuildStatus
+    </div>
+    
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    
+
+    
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+    
+      <li><code>application/json</code></li>
+    
+      <li><code>application/xml</code></li>
+    
+    </ul>
+    
+
+    <h3 class="field-label">Responses</h3>
+    
+    <h4 class="field-label">200</h4>
+    success
+        
+    
+    
+  </div> <!-- method -->
+  <hr/>
+  
+  <div class="method"><a name="buildTriggerPost"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="post"><code class="huge"><span class="http-method">post</span> /build/trigger</code></pre></div>
+    <div class="method-summary">Begin build of specified mine (<span class="nickname">buildTriggerPost</span>)</div>
+    
+    <div class="method-notes"></div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      
+      DataBuild
+    </div>
+    
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    
+
+    
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+    
+      <li><code>application/json</code></li>
+    
+      <li><code>application/xml</code></li>
+    
+    </ul>
+    
+
+    <h3 class="field-label">Responses</h3>
+    
+    <h4 class="field-label">200</h4>
+    build triggered successfully
+        
+    
+    
+  </div> <!-- method -->
+  <hr/>
+  
+  <div class="method"><a name="checkNameAvailability"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="post"><code class="huge"><span class="http-method">post</span> /mine/nameAvailability</code></pre></div>
+    <div class="method-summary">Check if a given username+minename combo is taken (<span class="nickname">checkNameAvailability</span>)</div>
+    
+    <div class="method-notes"></div>
+
+    
+
+    
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="header">Content-Type</span> request header:
+    <ul>
+    
+      <li><code>application/json</code></li>
+    
+      <li><code>application/xml</code></li>
+    
+    </ul>
+    
+
+    
+    <h3 class="field-label">Request body</h3>
+    <div class="field-items">
+      <div class="param">body <a href="#MineName">MineName</a> (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash;  </div>
+
+    </div>  <!-- field-items -->
+    
+
+    
+
+    
+
+    
+
+    
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      
+      NameAvailability
+    </div>
+    
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    
+
+    
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+    
+      <li><code>application/json</code></li>
+    
+      <li><code>application/xml</code></li>
+    
+    </ul>
+    
+
+    <h3 class="field-label">Responses</h3>
+    
+    <h4 class="field-label">200</h4>
+    Success
+        
+    
+    
+  </div> <!-- method -->
+  <hr/>
+  
+  <div class="method"><a name="detectFileProperties"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="post"><code class="huge"><span class="http-method">post</span> /file/properties/detect</code></pre></div>
+    <div class="method-summary">Return identified file type (<span class="nickname">detectFileProperties</span>)</div>
+    
+    <div class="method-notes"></div>
+
+    
+
+    
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="header">Content-Type</span> request header:
+    <ul>
+    
+      <li><code>application/json</code></li>
+    
+      <li><code>application/xml</code></li>
+    
+      <li><code>multipart/form-data</code></li>
+    
+    </ul>
+    
+
+    
+    <h3 class="field-label">Request body</h3>
+    <div class="field-items">
+      <div class="param">body <a href="#DataFile">DataFile</a> (required)</div>
+
+      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash;  </div>
+
+    </div>  <!-- field-items -->
+    
+
+    
+
+    
+
+    
+
+    
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      
+      DataFileProperties
+    </div>
+    
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    
+
+    
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+    
+      <li><code>application/json</code></li>
+    
+      <li><code>application/xml</code></li>
+    
+    </ul>
+    
+
+    <h3 class="field-label">Responses</h3>
+    
+    <h4 class="field-label">200</h4>
+    successfully detected file type
+        
+    
+    
+  </div> <!-- method -->
+  <hr/>
+  
+  <div class="method"><a name="fileSavePost"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="post"><code class="huge"><span class="http-method">post</span> /file/save</code></pre></div>
+    <div class="method-summary">Upload File that has properties mapped (<span class="nickname">fileSavePost</span>)</div>
+    
+    <div class="method-notes">Finalise upload for a file that has already had its properties detected and mapped.</div>
+
+    
+
+    
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="header">Content-Type</span> request header:
+    <ul>
+    
+      <li><code>application/json</code></li>
+    
+      <li><code>application/xml</code></li>
+    
+    </ul>
+    
+
+    
+    <h3 class="field-label">Request body</h3>
+    <div class="field-items">
+      <div class="param">body <a href="#DataFile">DataFile</a> (required)</div>
+
+      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash;  </div>
+
+    </div>  <!-- field-items -->
+    
+
+    
+
+    
+
+    
+
+    
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    
+
+    
+
+    <h3 class="field-label">Responses</h3>
+    
+    <h4 class="field-label">200</h4>
+    successfully saved provided File
+        
+    
+    
+  </div> <!-- method -->
+  <hr/>
+  
+  <div class="method"><a name="getMineConfig"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /mine/config/{mineId}</code></pre></div>
+    <div class="method-summary">Get mine config (<span class="nickname">getMineConfig</span>)</div>
+    
+    <div class="method-notes">return configured details (if any) for a given mineconfig id</div>
+
+    
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">mineId (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; ID of mineconfig to fetch format: int64</div>
+    </div>  <!-- field-items -->
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      
+      MineConfig
+    </div>
+    
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    
+
+    
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+    
+      <li><code>application/json</code></li>
+    
+      <li><code>application/xml</code></li>
+    
+    </ul>
+    
+
+    <h3 class="field-label">Responses</h3>
+    
+    <h4 class="field-label">200</h4>
+    success
+        
+    
+    
+  </div> <!-- method -->
+  <hr/>
+  
+  <div class="method"><a name="getSupplementaryDataSources"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /supplementaryDataSources</code></pre></div>
+    <div class="method-summary">Get list of possible supplementary data sources for this mine config (<span class="nickname">getSupplementaryDataSources</span>)</div>
+    
+    <div class="method-notes">Returns a list of possible external data sources to add to this mine, e.g. GO terms, publications, etc.</div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      
+      array[SupplementaryDataSource]
+    </div>
+    
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    
+
+    
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+    
+      <li><code>application/json</code></li>
+    
+      <li><code>application/xml</code></li>
+    
+    </ul>
+    
+
+    <h3 class="field-label">Responses</h3>
+    
+    <h4 class="field-label">200</h4>
+    Success
+        
+    
+    
+  </div> <!-- method -->
+  <hr/>
+  
+  <div class="method"><a name="mineDataToolMineIdPost"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="post"><code class="huge"><span class="http-method">post</span> /mine/dataTool/{mineId}</code></pre></div>
+    <div class="method-summary">Set tools to be used for the given mine (<span class="nickname">mineDataToolMineIdPost</span>)</div>
+    
+    <div class="method-notes"></div>
+
+    
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">mineId (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; ID of mineconfig to set tools for format: int64</div>
+    </div>  <!-- field-items -->
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      
+      DataToolResponse
+    </div>
+    
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    
+
+    
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+    
+      <li><code>application/json</code></li>
+    
+      <li><code>application/xml</code></li>
+    
+    </ul>
+    
+
+    <h3 class="field-label">Responses</h3>
+    
+    <h4 class="field-label">200</h4>
+    success
+        
+    
+    
+  </div> <!-- method -->
+  <hr/>
+  
+  <div class="method"><a name="mineDataToolsMineIdGet"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /mine/dataTools/{mineId}</code></pre></div>
+    <div class="method-summary">Retrieve set of tools suitable for the given mine (<span class="nickname">mineDataToolsMineIdGet</span>)</div>
+    
+    <div class="method-notes"></div>
+
+    
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">mineId (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; ID of mineconfig to fetch tools for format: int64</div>
+    </div>  <!-- field-items -->
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      
+      array[DataTool]
+    </div>
+    
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    
+
+    
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+    
+      <li><code>application/json</code></li>
+    
+      <li><code>application/xml</code></li>
+    
+    </ul>
+    
+
+    <h3 class="field-label">Responses</h3>
+    
+    <h4 class="field-label">200</h4>
+    success
+        
+    
+    
+  </div> <!-- method -->
+  <hr/>
+  
+  <div class="method"><a name="saveFileProperties"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="post"><code class="huge"><span class="http-method">post</span> /file/properties/save</code></pre></div>
+    <div class="method-summary">Save file properties to a given InterMine pre-build config (<span class="nickname">saveFileProperties</span>)</div>
+    
+    <div class="method-notes">Following on from &lt;code&gt;detectFileProperties&lt;/code&gt;, we need to save a set of configs associated with a file. This can be run multiple times, as the user may upload an unknown number of files.</div>
+
+    
+
+    
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="header">Content-Type</span> request header:
+    <ul>
+    
+      <li><code>application/json</code></li>
+    
+      <li><code>application/xml</code></li>
+    
+    </ul>
+    
+
+    
+    <h3 class="field-label">Request body</h3>
+    <div class="field-items">
+      <div class="param">body <a href="#DataFilePropertiesResponse">DataFilePropertiesResponse</a> (required)</div>
+
+      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash;  </div>
+
+    </div>  <!-- field-items -->
+    
+
+    
+
+    
+
+    
+
+    
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    
+
+    
+
+    <h3 class="field-label">Responses</h3>
+    
+    <h4 class="field-label">200</h4>
+    successfully saved provided DataFileProperties details
+        
+    
+    
+  </div> <!-- method -->
+  <hr/>
+  
+  <div class="method"><a name="setMineConfig"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="post"><code class="huge"><span class="http-method">post</span> /mine/config</code></pre></div>
+    <div class="method-summary">Start new mine build config entry (<span class="nickname">setMineConfig</span>)</div>
+    
+    <div class="method-notes">Create a new entry for a set of uploaded files and associated configs to launch a new mine. This can allocate an id which all file uploads will be associated with.</div>
+
+    
+
+    
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="header">Content-Type</span> request header:
+    <ul>
+    
+      <li><code>application/json</code></li>
+    
+      <li><code>application/xml</code></li>
+    
+    </ul>
+    
+
+    
+    <h3 class="field-label">Request body</h3>
+    <div class="field-items">
+      <div class="param">body <a href="#MineConfig">MineConfig</a> (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash;  </div>
+
+    </div>  <!-- field-items -->
+    
+
+    
+
+    
+
+    
+
+    
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      
+      Integer
+    </div>
+    
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    
+
+    
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+    
+      <li><code>application/json</code></li>
+    
+      <li><code>application/xml</code></li>
+    
+    </ul>
+    
+
+    <h3 class="field-label">Responses</h3>
+    
+    <h4 class="field-label">200</h4>
+    New mineconfig instance created
+        
+    
+    
+  </div> <!-- method -->
+  <hr/>
+  
+  <div class="method"><a name="setSupplementaryDataSources"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="post"><code class="huge"><span class="http-method">post</span> /supplementaryDataSources</code></pre></div>
+    <div class="method-summary">set list of desired supplementary data sources (<span class="nickname">setSupplementaryDataSources</span>)</div>
+    
+    <div class="method-notes">Saves a list of possible external data sources to add to this mine, e.g. GO terms, publications, etc.</div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      
+      SupplementaryDataSourcesResponse
+    </div>
+    
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    
+
+    
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+    
+      <li><code>application/json</code></li>
+    
+      <li><code>application/xml</code></li>
+    
+    </ul>
+    
+
+    <h3 class="field-label">Responses</h3>
+    
+    <h4 class="field-label">200</h4>
+    Success
+        
+    
+    
+  </div> <!-- method -->
+  <hr/>
+  
+  
+  
+  
+
+  <h2><a name="__Models">Models</a></h2>
+  [ Jump to <a href="#__Methods">Methods</a> ]
+
+  <h3>Table of Contents</h3>
+  <ol>
+  
+  
+    <li><a href="#DataBuild"><code>DataBuild</code></a></li>
+  
+  
+  
+    <li><a href="#DataBuildStatus"><code>DataBuildStatus</code></a></li>
+  
+  
+  
+    <li><a href="#DataFile"><code>DataFile</code></a></li>
+  
+  
+  
+    <li><a href="#DataFileProperties"><code>DataFileProperties</code></a></li>
+  
+  
+  
+    <li><a href="#DataFilePropertiesResponse"><code>DataFilePropertiesResponse</code></a></li>
+  
+  
+  
+    <li><a href="#DataTool"><code>DataTool</code></a></li>
+  
+  
+  
+    <li><a href="#DataToolResponse"><code>DataToolResponse</code></a></li>
+  
+  
+  
+    <li><a href="#MineConfig"><code>MineConfig</code></a></li>
+  
+  
+  
+    <li><a href="#MineName"><code>MineName</code></a></li>
+  
+  
+  
+    <li><a href="#NameAvailability"><code>NameAvailability</code></a></li>
+  
+  
+  
+    <li><a href="#SupplementaryDataSource"><code>SupplementaryDataSource</code></a></li>
+  
+  
+  
+    <li><a href="#SupplementaryDataSourcesResponse"><code>SupplementaryDataSourcesResponse</code></a></li>
+  
+  
+  </ol>
+
+  
+  
+  <div class="model">
+    <h3><a name="DataBuild"><code>DataBuild</code></a> <a class="up" href="#__Models">Up</a></h3>
+    
+    <div class="field-items">
+      <div class="param">mineConfigId </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  format: int32</div>
+      
+      
+    </div>  <!-- field-items -->
+  </div>
+  
+  
+  
+  <div class="model">
+    <h3><a name="DataBuildStatus"><code>DataBuildStatus</code></a> <a class="up" href="#__Models">Up</a></h3>
+    
+    <div class="field-items">
+      <div class="param">buildStatus </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+      
+        <div class="param-enum-header">Enum:</div>
+        <div class="param-enum">complete</div><div class="param-enum">running</div><div class="param-enum">errored</div><div class="param-enum">not_yet_started</div>
+      
+      <div class="param">errorDetails (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+      
+      
+    </div>  <!-- field-items -->
+  </div>
+  
+  
+  
+  <div class="model">
+    <h3><a name="DataFile"><code>DataFile</code></a> <a class="up" href="#__Models">Up</a></h3>
+    
+    <div class="field-items">
+      <div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+      
+      <div class="param">fileContents </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+      
+      
+    </div>  <!-- field-items -->
+  </div>
+  
+  
+  
+  <div class="model">
+    <h3><a name="DataFileProperties"><code>DataFileProperties</code></a> <a class="up" href="#__Models">Up</a></h3>
+    
+    <div class="field-items">
+      <div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+      
+      <div class="param">fileFormat </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+      
+      <div class="param">rowCount </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  format: int32</div>
+      
+      <div class="param">filePreview (optional)</div><div class="param-desc"><span class="param-type"><a href="#object">Object</a></span>  </div>
+      
+      <div class="param">columnsToMap (optional)</div><div class="param-desc"><span class="param-type"><a href="#object">array[Object]</a></span>  </div>
+      
+      <div class="param">organism </div><div class="param-desc"><span class="param-type"><a href="#object">Object</a></span>  </div>
+      
+      <div class="param">fileID </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  format: int32</div>
+      
+      <div class="param">mineID </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  format: int32</div>
+      
+      
+    </div>  <!-- field-items -->
+  </div>
+  
+  
+  
+  <div class="model">
+    <h3><a name="DataFilePropertiesResponse"><code>DataFilePropertiesResponse</code></a> <a class="up" href="#__Models">Up</a></h3>
+    
+    <div class="field-items">
+      <div class="param">mappedColumns (optional)</div><div class="param-desc"><span class="param-type"><a href="#object">array[Object]</a></span>  </div>
+      
+      <div class="param">organism (optional)</div><div class="param-desc"><span class="param-type"><a href="#object">Object</a></span>  </div>
+      
+      <div class="param">fileID </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  format: int32</div>
+      
+      <div class="param">mineID </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  format: int32</div>
+      
+      
+    </div>  <!-- field-items -->
+  </div>
+  
+  
+  
+  <div class="model">
+    <h3><a name="DataTool"><code>DataTool</code></a> <a class="up" href="#__Models">Up</a></h3>
+    
+    <div class="field-items">
+      <div class="param">toolId (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  format: int32</div>
+      
+      <div class="param">toolName (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+      
+      <div class="param">toolDescription (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+      
+      <div class="param">toolPreview (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+      
+      <div class="param">requiredClasses (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span>  </div>
+      
+      
+    </div>  <!-- field-items -->
+  </div>
+  
+  
+  
+  <div class="model">
+    <h3><a name="DataToolResponse"><code>DataToolResponse</code></a> <a class="up" href="#__Models">Up</a></h3>
+    <div class='model-description'>ids of tools to use in this mine.</div>
+    <div class="field-items">
+      
+    </div>  <!-- field-items -->
+  </div>
+  
+  
+  
+  <div class="model">
+    <h3><a name="MineConfig"><code>MineConfig</code></a> <a class="up" href="#__Models">Up</a></h3>
+    
+    <div class="field-items">
+      <div class="param">name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+      
+      <div class="param">lab (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+      
+      <div class="param">mineUrl (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+      
+      <div class="param">privacy (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+      
+        <div class="param-enum-header">Enum:</div>
+        <div class="param-enum">private</div><div class="param-enum">unlisted</div><div class="param-enum">public</div>
+      
+      <div class="param">licence (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+      
+      
+    </div>  <!-- field-items -->
+  </div>
+  
+  
+  
+  <div class="model">
+    <h3><a name="MineName"><code>MineName</code></a> <a class="up" href="#__Models">Up</a></h3>
+    
+    <div class="field-items">
+      <div class="param">mineName </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+      
+      <div class="param">userName </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+      
+      
+    </div>  <!-- field-items -->
+  </div>
+  
+  
+  
+  <div class="model">
+    <h3><a name="NameAvailability"><code>NameAvailability</code></a> <a class="up" href="#__Models">Up</a></h3>
+    
+    <div class="field-items">
+      
+    </div>  <!-- field-items -->
+  </div>
+  
+  
+  
+  <div class="model">
+    <h3><a name="SupplementaryDataSource"><code>SupplementaryDataSource</code></a> <a class="up" href="#__Models">Up</a></h3>
+    
+    <div class="field-items">
+      <div class="param">humanName </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+      
+      <div class="param">modelName </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+      
+      <div class="param">description </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+      
+      <div class="param">url </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+      
+      
+    </div>  <!-- field-items -->
+  </div>
+  
+  
+  
+  <div class="model">
+    <h3><a name="SupplementaryDataSourcesResponse"><code>SupplementaryDataSourcesResponse</code></a> <a class="up" href="#__Models">Up</a></h3>
+    
+    <div class="field-items">
+      
+    </div>  <!-- field-items -->
+  </div>
+  
+  
+  </body>
+</html>
