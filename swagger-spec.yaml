@@ -84,6 +84,33 @@ paths:
             application/xml:
               schema:
                 $ref: '#/components/schemas/NameAvailability'
+  /mine/dataTools/{id}:
+    get:
+      summary: Retrieve set of tools suitable for the given mine
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DataTool'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DataTool'
+      parameters:
+       - name: id
+         in: path
+         description: ID of mineconfig to fetch
+         required: true
+         schema:
+           type: integer
+           format: int64
+           example: 98564512
+
   /file/properties/detect:
     post:
       summary: Return identified file type
@@ -151,6 +178,32 @@ paths:
               $ref: '#/components/schemas/DataFile'
         description: File or file snippet that needs to be identified.
         required: true
+  /build/trigger:
+    post:
+      summary: Begin build of specified mine
+      responses:
+        '200':
+          description: build triggered successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DataBuild'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/DataBuild'
+  /build/status:
+    get:
+      summary: Retrieve build status of a given mine
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DataBuildStatus'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/DataBuildStatus'
   /supplementaryDataSources:
     get:
       summary: Get list of possible supplementary data sources for this mine config
@@ -164,10 +217,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SupplementaryDataSources'
+                type: array
+                items:
+                  $ref: '#/components/schemas/SupplementaryDataSource'
             application/xml:
               schema:
-                $ref: '#/components/schemas/SupplementaryDataSources'
+                type: array
+                items:
+                  $ref: '#/components/schemas/SupplementaryDataSource'
     post:
       summary: set list of desired supplementary data sources
       description: >-
@@ -366,12 +423,6 @@ components:
           example: CC0
       xml:
         name: MineConfig
-    SupplementaryDataSources:
-      type: array
-      items:
-        $ref: '#/components/schemas/SupplementaryDataSource'
-      xml:
-        name: SupplementaryDataSources
     SupplementaryDataSource:
       type: object
       required:
@@ -422,3 +473,36 @@ components:
         - minename_taken
         - both_taken
         - free
+    DataBuild:
+      type: object
+      required:
+        - mineConfigId
+      properties:
+        mineConfigId:
+          type: integer
+    DataBuildStatus:
+      type: object
+      required:
+        - buildStatus
+      properties:
+        buildStatus:
+          type: string
+          enum:
+            - complete
+            - running
+            - errored
+            - not_yet_started
+        errorDetails:
+          type: string
+    DataTool:
+      type: object
+      properties:
+        toolId:
+          type: integer
+        requiredClasses:
+          type: array
+          items:
+            type: string
+          example:
+            - Gene
+            - Gene.homologues.homologue
