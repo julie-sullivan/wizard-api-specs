@@ -436,12 +436,6 @@ components:
         password:
           type: string
           format: password #hashed, naturally
-        firstName:
-          type: string
-          example: Alice
-        lastName:
-          type: string
-          example: Cooper
     Lab:
       type: object
       required:
@@ -481,7 +475,7 @@ components:
         lab:
           type: object
           allOf:
-            $ref: '#/components/schemas/MineConfig'
+            - $ref: '#/components/schemas/Lab'
         mineUrl:
           type: string
           example: myfirstmine.alicelab.intermine.org
