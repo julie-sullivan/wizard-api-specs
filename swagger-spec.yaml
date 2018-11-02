@@ -422,17 +422,66 @@ components:
           type: integer
       xml:
         name: DataFilePropertiesResponse
+    User:
+      type: object
+      required:
+        - email
+      properties:
+        email:
+          type: string
+          example: alice@mylab.com
+        username:
+          type: string
+          example: alice
+        password:
+          type: string
+          format: password #hashed, naturally
+        firstName:
+          type: string
+          example: Alice
+        lastName:
+          type: string
+          example: Cooper
+    Lab:
+      type: object
+      required:
+        - subdomain
+        - users
+      properties:
+        subdomain:
+          type: string
+          example: AliceLab
+        mines:
+          type: array
+          items:
+            $ref: '#/components/schemas/MineConfig'
+        users:
+          type: object
+          properties:
+            Owners:
+              type: array
+              items:
+                $ref: '#/components/schemas/User'
+            Admins: ##Maybe the same as owners?
+              type: array
+              items:
+                $ref: '#/components/schemas/User'
+            Viewers:
+              type: array
+              items:
+                $ref: '#/components/schemas/User'
     MineConfig:
       type: object
       required:
         - id
       properties:
-        name:
+        mineName:
           type: string
           example: MyFirstMine
         lab:
-          type: string
-          example: AliceLab
+          type: object
+          allOf:
+            $ref: '#/components/schemas/MineConfig'
         mineUrl:
           type: string
           example: myfirstmine.alicelab.intermine.org
@@ -482,7 +531,7 @@ components:
     MineName:
       type: object
       required:
-        - userName
+        - labName #infer by default if user is authenticated?
         - mineName
       properties:
         mineName:
@@ -494,8 +543,8 @@ components:
     NameAvailability:
       type: string
       enum:
-        - user_taken
-        - minename_taken
+        - lab_taken #If user/lab is unauthenticated only
+        - minename_taken #per user
         - both_taken
         - free
     DataBuild:
