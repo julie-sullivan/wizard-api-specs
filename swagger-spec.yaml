@@ -397,35 +397,37 @@ components:
               example: '9606'
 
     DataFilePropertiesResponse:
-      type: object
-      required:
-        - fileID
-        - mineID
-      properties:
-        mappedColumns:
-          type: array
-          items:
-            type: object
-            properties:
-              fileColumnName:
-                type: string
-                example: GeneID
-              modelClassToMapTo:
-                type: string
-                example: Gene
-              modelPropertyToMapTo:
-                type: string
-                nullable: true
-                example: primaryIdentifier
-        organism:
-          allOf:
-            - $ref: '#/components/schemas/Organism'
-        fileID:
-          type: integer
-        mineID:
-          type: integer
-      xml:
-        name: DataFilePropertiesResponse
+      type: array
+      items:
+        type: object
+        required:
+          - fileID
+          - mineID
+        properties:
+          mappedColumns:
+            type: array
+            items:
+              type: object
+              properties:
+                fileColumnName:
+                  type: string
+                  example: GeneID
+                modelClassToMapTo:
+                  type: string
+                  example: Gene
+                modelPropertyToMapTo:
+                  type: string
+                  nullable: true
+                  example: primaryIdentifier
+          organism:
+            allOf:
+              - $ref: '#/components/schemas/Organism'
+          fileID:
+            type: integer
+          mineID:
+            type: integer
+        xml:
+          name: DataFilePropertiesResponse
     User:
       type: object
       required:
