@@ -203,6 +203,25 @@ paths:
               $ref: '#/components/schemas/DataFile'
         description: File or file snippet that needs to be identified.
         required: true
+  /file/delete:
+    post:
+      summary: Delete file and associated properties
+      description: >-
+        Remove uploaded file and any properties detected or mapped by user.
+      responses:
+        '200':
+          description: File and properties deleted
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+              example: humanfile3.gff #Should this be a file ID instead? Maybe safer
+          application/xml:
+            schema:
+              type: string
+              example: humanfile3.gff #Should this be a file ID instead? Maybe safer
+        required: true
   /build/trigger:
     post:
       summary: Begin build of specified mine
