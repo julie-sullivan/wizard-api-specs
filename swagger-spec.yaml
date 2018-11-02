@@ -276,12 +276,16 @@ components:
       required:
         - name
         - fileContents
+        - organism
       properties:
         name:
           type: string
           example: humanfile.gff
         fileContents:
           type: string
+        organism:
+          allOf:
+            - $ref: '#/components/schemas/Organism'
       xml:
         name: DataFile
     DataFileProperties:
@@ -369,7 +373,18 @@ components:
               defaultMapping:
                 type: string
         organism:
+          allOf:
+            - $ref: '#/components/schemas/Organism'
+        fileID:
+          type: integer
+        mineID:
+          type: integer
+      xml:
+        name: DataFileProperties
+    Organism:
           type: object
+          required:
+            - taxonID
           properties:
             name:
               type: string
@@ -380,12 +395,7 @@ components:
             taxonID:
               type: integer
               example: '9606'
-        fileID:
-          type: integer
-        mineID:
-          type: integer
-      xml:
-        name: DataFileProperties
+
     DataFilePropertiesResponse:
       type: object
       required:
@@ -408,14 +418,8 @@ components:
                 nullable: true
                 example: primaryIdentifier
         organism:
-          type: object
-          properties:
-            genomeBuild:
-              type: string
-              example: GRCh38.p7
-            taxonID:
-              type: integer
-              example: '9606'
+          allOf:
+            - $ref: '#/components/schemas/Organism'
         fileID:
           type: integer
         mineID:
