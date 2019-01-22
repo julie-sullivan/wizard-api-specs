@@ -40,14 +40,14 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "integer",
-                  "example": 98564512
+                  "type": "string",
+                  "example": "123e4567-e89b-12d3-a456-556642440000"
                 }
               },
               "application/xml": {
                 "schema": {
-                  "type": "integer",
-                  "example": 98564512
+                  "type": "string",
+                  "example": "123e4567-e89b-12d3-a456-556642440000"
                 }
               }
             }
@@ -58,7 +58,7 @@
     "/mine/config/{mineId}": {
       "get": {
         "summary": "Get mine config",
-        "description": "return configured details (if any) for a given mineconfig id",
+        "description": "return configured details (if any) for a given mine id",
         "operationId": "getMineConfig",
         "parameters": [
           {
@@ -67,9 +67,9 @@
             "description": "ID of mineconfig to fetch",
             "required": true,
             "schema": {
-              "type": "integer",
-              "format": "int64",
-              "example": 98564512
+              "type": "string",
+              "format": "uuid",
+              "example": "123e4567-e89b-12d3-a456-556642440000"
             }
           }
         ],
@@ -92,119 +92,7 @@
         }
       }
     },
-    "/mine/nameAvailability": {
-      "post": {
-        "summary": "Check if a given username+minename combo is taken",
-        "operationId": "checkNameAvailability",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/MineName"
-              }
-            },
-            "application/xml": {
-              "schema": {
-                "$ref": "#/components/schemas/MineName"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/NameAvailability"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/NameAvailability"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/mine/dataTools/{mineId}": {
-      "get": {
-        "summary": "Retrieve set of tools suitable for the given mine",
-        "responses": {
-          "200": {
-            "description": "success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/DataTool"
-                  }
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/DataTool"
-                  }
-                }
-              }
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "mineId",
-            "in": "path",
-            "description": "ID of mineconfig to fetch tools for",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64",
-              "example": 98564512
-            }
-          }
-        ]
-      }
-    },
-    "/mine/dataTool/{mineId}": {
-      "post": {
-        "summary": "Set tools to be used for the given mine",
-        "responses": {
-          "200": {
-            "description": "success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/DataToolResponse"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/DataToolResponse"
-                }
-              }
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "mineId",
-            "in": "path",
-            "description": "ID of mineconfig to set tools for",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64",
-              "example": 98564512
-            }
-          }
-        ]
-      }
-    },
+
     "/file/properties/detect": {
       "post": {
         "summary": "Return identified file type",
@@ -331,6 +219,82 @@
           },
           "required": true
         }
+      }
+    },
+    "/mine/dataTools/{mineId}": {
+      "get": {
+        "summary": "Retrieve set of tools suitable for the given mine",
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/DataTool"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/DataTool"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "mineId",
+            "in": "path",
+            "description": "ID of mineconfig to fetch tools for",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "example": 98564512
+            }
+          }
+        ]
+      }
+    },
+    "/mine/dataTool/{mineId}": {
+      "post": {
+        "summary": "Set tools to be used for the given mine",
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DataToolResponse"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/DataToolResponse"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "mineId",
+            "in": "path",
+            "description": "ID of mineconfig to set tools for",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "example": 98564512
+            }
+          }
+        ]
       }
     },
     "/build/trigger": {
@@ -592,7 +556,7 @@
             "type": "integer"
           },
           "mineID": {
-            "type": "integer"
+            "type": "string"
           }
         },
         "xml": {
@@ -605,14 +569,6 @@
           "taxonID"
         ],
         "properties": {
-          "name": {
-            "type": "string",
-            "example": "H. Sapiens"
-          },
-          "genomeBuild": {
-            "type": "string",
-            "example": "GRCh38.p7"
-          },
           "taxonID": {
             "type": "integer",
             "example": "9606"
@@ -660,7 +616,7 @@
               "type": "integer"
             },
             "mineID": {
-              "type": "integer"
+              "type": "string"
             }
           },
           "xml": {
@@ -678,55 +634,9 @@
             "type": "string",
             "example": "alice@mylab.com"
           },
-          "username": {
-            "type": "string",
-            "example": "alice"
-          },
           "password": {
             "type": "string",
             "format": "password"
-          }
-        }
-      },
-      "Lab": {
-        "type": "object",
-        "required": [
-          "subdomain",
-          "users"
-        ],
-        "properties": {
-          "subdomain": {
-            "type": "string",
-            "example": "AliceLab"
-          },
-          "mines": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/MineConfig"
-            }
-          },
-          "users": {
-            "type": "object",
-            "properties": {
-              "Owners": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/components/schemas/User"
-                }
-              },
-              "Admins": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/components/schemas/User"
-                }
-              },
-              "Viewers": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/components/schemas/User"
-                }
-              }
-            }
           }
         }
       },
@@ -740,26 +650,13 @@
             "type": "string",
             "example": "MyFirstMine"
           },
-          "lab": {
-            "type": "object",
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/Lab"
-              }
-            ]
-          },
-          "mineUrl": {
-            "type": "string",
-            "example": "myfirstmine.alicelab.intermine.org"
-          },
           "privacy": {
             "type": "string",
             "enum": [
-              "private",
               "unlisted",
               "public"
             ],
-            "example": "private"
+            "example": "unlisted"
           },
           "licence": {
             "type": "string",
@@ -773,27 +670,22 @@
       "SupplementaryDataSource": {
         "type": "object",
         "required": [
-          "humanName",
-          "modelName",
+          "label",
           "description",
           "url"
         ],
         "properties": {
-          "humanName": {
+          "label": {
             "type": "string",
-            "example": "GO annotations"
-          },
-          "modelName": {
-            "type": "string",
-            "example": "GOAnnotations"
+            "example": "NCBI Taxon ID information"
           },
           "description": {
             "type": "string",
-            "example": "A GO annotation is a statement about the function of a particular gene."
+            "example": "Will populate empty fields for Organism, e.g. name (Based on NCBI taxon ID)"
           },
           "url": {
             "type": "string",
-            "example": "http://geneontology.org/page/go-annotations"
+            "example": "https://intermine.readthedocs.io/en/latest/database/data-sources/library/organism/"
           }
         },
         "xml": {
@@ -808,32 +700,6 @@
         "example": [
           "GOAnnotations",
           "PubMed"
-        ]
-      },
-      "MineName": {
-        "type": "object",
-        "required": [
-          "labName",
-          "mineName"
-        ],
-        "properties": {
-          "mineName": {
-            "type": "string",
-            "example": "myFirstDatabase"
-          },
-          "userName": {
-            "type": "string",
-            "example": "AliceLab"
-          }
-        }
-      },
-      "NameAvailability": {
-        "type": "string",
-        "enum": [
-          "lab_taken",
-          "minename_taken",
-          "both_taken",
-          "free"
         ]
       },
       "DataBuild": {
