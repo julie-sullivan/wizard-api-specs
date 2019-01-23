@@ -20,6 +20,8 @@
         "description": "Create a new entry for a set of uploaded files and associated configs to launch a new mine. This can allocate an id which all file uploads will be associated with.",
         "operationId": "setMineConfig",
         "requestBody": {
+          "required": false,
+          "description": "Config to set for Mine",
           "content": {
             "application/json": {
               "schema": {
@@ -30,9 +32,8 @@
               "schema": {
                 "$ref": "#/components/schemas/MineConfig"
               }
-            }, 
-          "required": false,
-          "description": "Config to set for Mine"
+            }
+          }
         },
         "responses": {
           "200": {
@@ -92,6 +93,7 @@
         }
       }
     },
+
     "/file/properties/detect": {
       "post": {
         "summary": "Return identified file type",
@@ -405,6 +407,9 @@
     "schemas": {
       "MineConfig": {
         "type": "object",
+        "required": [
+          "id"
+        ],
         "properties": {
           "mineName": {
             "type": "string",
@@ -432,7 +437,7 @@
         "required": [
           "name",
           "fileContents",
-          "fileType",
+          "fileFormat",
           "organism"
         ],
         "properties": {
@@ -443,7 +448,7 @@
           "fileContents": {
             "type": "string"
           },
-          "fileType": {
+          "fileFormat": {
             "type": "string",
             "enum": [
               "fasta",
