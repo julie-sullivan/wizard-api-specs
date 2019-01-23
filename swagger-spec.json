@@ -20,8 +20,6 @@
         "description": "Create a new entry for a set of uploaded files and associated configs to launch a new mine. This can allocate an id which all file uploads will be associated with.",
         "operationId": "setMineConfig",
         "requestBody": {
-          "required": false,
-          "description": "Config to set for Mine",
           "content": {
             "application/json": {
               "schema": {
@@ -32,8 +30,9 @@
               "schema": {
                 "$ref": "#/components/schemas/MineConfig"
               }
-            }
-          }
+            }, 
+          "required": false,
+          "description": "Config to set for Mine"
         },
         "responses": {
           "200": {
@@ -93,7 +92,6 @@
         }
       }
     },
-
     "/file/properties/detect": {
       "post": {
         "summary": "Return identified file type",
@@ -255,9 +253,9 @@
             "description": "ID of mineconfig to fetch tools for",
             "required": true,
             "schema": {
-              "type": "integer",
-              "format": "int64",
-              "example": 98564512
+              "type": "string",
+              "format": "uuid",
+              "example": "123e4567-e89b-12d3-a456-556642440000"
             }
           }
         ]
@@ -290,9 +288,9 @@
             "description": "ID of mineconfig to set tools for",
             "required": true,
             "schema": {
-              "type": "integer",
-              "format": "int64",
-              "example": 98564512
+              "type": "string",
+              "format": "uuid",
+              "example": "123e4567-e89b-12d3-a456-556642440000"
             }
           }
         ]
@@ -407,9 +405,6 @@
     "schemas": {
       "MineConfig": {
         "type": "object",
-        "required": [
-          "id"
-        ],
         "properties": {
           "mineName": {
             "type": "string",
@@ -426,11 +421,6 @@
           "licence": {
             "type": "string",
             "example": "CC0"
-          },
-          "date-updated": {
-            "type": "string",
-            "format": "date",
-            "example": "2018-01-22T17:32:28Z"
           }
         },
         "xml": {
@@ -442,6 +432,7 @@
         "required": [
           "name",
           "fileContents",
+          "fileType",
           "organism"
         ],
         "properties": {
@@ -451,6 +442,16 @@
           },
           "fileContents": {
             "type": "string"
+          },
+          "fileType": {
+            "type": "string",
+            "enum": [
+              "fasta",
+              "gff",
+              "tab",
+              "csv"
+            ],
+            "example": "fasta"
           },
           "organism": {
             "allOf": [
