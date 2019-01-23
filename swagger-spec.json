@@ -677,33 +677,6 @@
           }
         }
       },
-      "MineConfig": {
-        "type": "object",
-        "required": [
-          "id"
-        ],
-        "properties": {
-          "mineName": {
-            "type": "string",
-            "example": "MyFirstMine"
-          },
-          "privacy": {
-            "type": "string",
-            "enum": [
-              "unlisted",
-              "public"
-            ],
-            "example": "unlisted"
-          },
-          "licence": {
-            "type": "string",
-            "example": "CC0"
-          }
-        },
-        "xml": {
-          "name": "MineConfig"
-        }
-      },
       "SupplementaryDataSource": {
         "type": "object",
         "required": [
