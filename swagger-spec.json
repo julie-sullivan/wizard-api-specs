@@ -61,19 +61,17 @@
         "summary": "Get mine config",
         "description": "return configured details (if any) for a given mine id.",
         "operationId": "getMineConfig",
-        "parameters": [
-          {
-            "name": "mineId",
-            "in": "path",
-            "description": "ID of mineconfig to fetch",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid",
-              "example": "123e4567-e89b-12d3-a456-556642440000"
-            }
+        "parameters": [{
+          "name": "mineId",
+          "in": "path",
+          "description": "ID of mineconfig to fetch",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "format": "uuid",
+            "example": "123e4567-e89b-12d3-a456-556642440000"
           }
-        ],
+        }],
         "responses": {
           "200": {
             "description": "success",
@@ -248,19 +246,17 @@
             }
           }
         },
-        "parameters": [
-          {
-            "name": "mineId",
-            "in": "path",
-            "description": "ID of mineconfig to fetch tools for",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid",
-              "example": "123e4567-e89b-12d3-a456-556642440000"
-            }
+        "parameters": [{
+          "name": "mineId",
+          "in": "path",
+          "description": "ID of mineconfig to fetch tools for",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "format": "uuid",
+            "example": "123e4567-e89b-12d3-a456-556642440000"
           }
-        ]
+        }]
       }
     },
     "/mine/dataTool/{mineId}": {
@@ -283,19 +279,17 @@
             }
           }
         },
-        "parameters": [
-          {
-            "name": "mineId",
-            "in": "path",
-            "description": "ID of mineconfig to set tools for",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid",
-              "example": "123e4567-e89b-12d3-a456-556642440000"
-            }
+        "parameters": [{
+          "name": "mineId",
+          "in": "path",
+          "description": "ID of mineconfig to set tools for",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "format": "uuid",
+            "example": "123e4567-e89b-12d3-a456-556642440000"
           }
-        ]
+        }]
       }
     },
     "/build/trigger": {
@@ -395,8 +389,7 @@
       }
     }
   },
-  "servers": [
-    {
+  "servers": [{
       "url": "https://wizard.intermine.org/v1"
     },
     {
@@ -459,11 +452,9 @@
             "example": "fasta"
           },
           "organism": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/Organism"
-              }
-            ]
+            "allOf": [{
+              "$ref": "#/components/schemas/Organism"
+            }]
           }
         },
         "xml": {
@@ -562,8 +553,7 @@
                         "type": "string"
                       }
                     },
-                    "example": [
-                      {
+                    "example": [{
                         "humanName:\"Gene Primary Identifier\"": null,
                         "modelName:\"primaryIdentifier\"": null
                       },
@@ -585,11 +575,9 @@
             }
           },
           "organism": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/Organism"
-              }
-            ]
+            "allOf": [{
+              "$ref": "#/components/schemas/Organism"
+            }]
           },
           "fileID": {
             "type": "integer"
@@ -616,6 +604,107 @@
             "type": "integer",
             "example": "9606"
           }
+        }
+      },
+      "DataFileQuestion": {
+        "type": "object",
+        "required": [
+          "fileID",
+          "mineID",
+          "question"
+        ],
+        "properties": {
+          "fileId": {
+            "type": "string"
+          },
+          "mineId": {
+            "type": "string"
+          },
+          "question": {
+            "type": "object",
+            "properties": {
+              "questionType": {
+                "type": "string",
+                "example": "nucleotideOrProtein"
+              },
+              "questionWording": {
+                "type": "string",
+                "description": "Human-readable question aimed at a wizard user.",
+                "example": "Does this file contain nucleotides or proteins?"
+              },
+              "possibleAnswers": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/DataFileAnswerOption"
+                }
+              }
+            }
+          }
+        },
+        "xml": {
+          "name": "DataFileQuestion"
+        }
+      },
+      "DataFileAnswerOption": {
+        "type": "object",
+        "required": [
+          "fileID",
+          "mineID"
+        ],
+        "properties": {
+          "fileId": {
+            "type": "string"
+          },
+          "mineId": {
+            "type": "string"
+          },
+          "options": {
+            "type": "array",
+            "description": "Array of possible answers the user can choose from.",
+            "example": ["Nucleotides", "Proteins"],
+            "items": {
+              "type": "object",
+              "properties": {
+                "answerID": {
+                  "type": "string",
+                  "example": "nucleotide",
+                },
+                "answerWording": {
+                  "type": "string",
+                  "example": "Nucleotide"
+                }
+              }
+            }
+          }
+        },
+        "xml": {
+          "name": "DataFileAnswerOption"
+        }
+      },
+      "DataFileAnswerOptionMultiChoice": {
+        "type": "array",
+        "description": "Array of possible answers the user can choose from.",
+        "example" : [
+          {"answerId" : "nucleotide","answerWording":"Nucleotide"},
+          {"answerId" : "protein","answerWording":"Protein"}
+        ],
+        "items": {
+          "type": "object",
+          "properties": {
+            "answerID": {
+              "type": "string",
+              "description" : "Computer-friendly identifier for the answer",
+              "example": "nucleotide",
+            },
+            "answerWording": {
+              "type": "string",
+              "description" : "Human-readable identifier for the answer",
+              "example": "Nucleotide"
+            }
+          }
+        },
+        "xml": {
+          "name": "DataFileAnswerOptionMultiChoice"
         }
       },
       "DataFilePropertiesResponse": {
@@ -649,11 +738,9 @@
               }
             },
             "organism": {
-              "allOf": [
-                {
-                  "$ref": "#/components/schemas/Organism"
-                }
-              ]
+              "allOf": [{
+                "$ref": "#/components/schemas/Organism"
+              }]
             },
             "fileID": {
               "type": "integer"
