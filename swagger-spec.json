@@ -524,60 +524,11 @@
               }
             }
           },
-          "columnsToMap": {
+          "questions": {
             "type": "array",
             "items": {
-              "type": "object",
-              "properties": {
-                "fileColumnName": {
-                  "type": "string",
-                  "example": "GeneID"
-                },
-                "fileColumnExample": {
-                  "type": "string",
-                  "example": "100287102"
-                },
-                "modelClassToMapTo": {
-                  "type": "string",
-                  "example": "Gene"
-                },
-                "modelPropertyToMapTo": {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "humanName": {
-                        "type": "string"
-                      },
-                      "modelName": {
-                        "type": "string"
-                      }
-                    },
-                    "example": [{
-                        "humanName:\"Gene Primary Identifier\"": null,
-                        "modelName:\"primaryIdentifier\"": null
-                      },
-                      {
-                        "humanName": "Symbol",
-                        "modelName": "symbol"
-                      },
-                      {
-                        "humanName": "Synonym",
-                        "modelName:\"synonym\"": null
-                      }
-                    ]
-                  }
-                },
-                "defaultMapping": {
-                  "type": "string"
-                }
-              }
+              "$ref": "#/components/schemas/DataFilePropertiesQuestion"
             }
-          },
-          "organism": {
-            "allOf": [{
-              "$ref": "#/components/schemas/Organism"
-            }]
           },
           "fileID": {
             "type": "integer"
@@ -606,7 +557,7 @@
           }
         }
       },
-      "DataFileQuestion": {
+      "DataFilePropertiesQuestion": {
         "type": "object",
         "required": [
           "fileID",
@@ -635,17 +586,17 @@
               "possibleAnswers": {
                 "type": "array",
                 "items": {
-                  "$ref": "#/components/schemas/DataFileAnswerOption"
+                  "$ref": "#/components/schemas/DataFilePropertiesAnswerOption"
                 }
               }
             }
           }
         },
         "xml": {
-          "name": "DataFileQuestion"
+          "name": "DataFilePropertiesQuestion"
         }
       },
-      "DataFileAnswerOption": {
+      "DataFilePropertiesAnswerOption": {
         "type": "object",
         "required": [
           "fileID",
@@ -661,7 +612,9 @@
           "options": {
             "type": "array",
             "description": "Array of possible answers the user can choose from.",
-            "example": ["Nucleotides", "Proteins"],
+            "example": [
+              {"answerID" : "nucleotides", "answerWording":"Nucleotides"},
+              {"answerID" : "proteins", "answerWording":"Proteins"}],
             "items": {
               "type": "object",
               "properties": {
@@ -674,37 +627,15 @@
                   "example": "Nucleotide"
                 }
               }
-            }
-          }
-        },
-        "xml": {
-          "name": "DataFileAnswerOption"
-        }
-      },
-      "DataFileAnswerOptionMultiChoice": {
-        "type": "array",
-        "description": "Array of possible answers the user can choose from.",
-        "example" : [
-          {"answerId" : "nucleotide","answerWording":"Nucleotide"},
-          {"answerId" : "protein","answerWording":"Protein"}
-        ],
-        "items": {
-          "type": "object",
-          "properties": {
-            "answerID": {
-              "type": "string",
-              "description" : "Computer-friendly identifier for the answer",
-              "example": "nucleotide",
             },
-            "answerWording": {
-              "type": "string",
-              "description" : "Human-readable identifier for the answer",
-              "example": "Nucleotide"
-            }
+          },
+          "defaultAnswer": {
+            "type": "string",
+            "example": "answerID of one of the questions above"
           }
         },
         "xml": {
-          "name": "DataFileAnswerOptionMultiChoice"
+          "name": "DataFilePropertiesAnswerOption"
         }
       },
       "DataFilePropertiesResponse": {
@@ -716,31 +647,22 @@
             "mineID"
           ],
           "properties": {
-            "mappedColumns": {
+            "answers": {
               "type": "array",
               "items": {
                 "type": "object",
                 "properties": {
-                  "fileColumnName": {
+                  "answerID": {
                     "type": "string",
                     "example": "GeneID"
                   },
-                  "modelClassToMapTo": {
-                    "type": "string",
-                    "example": "Gene"
-                  },
-                  "modelPropertyToMapTo": {
+                  "answerChosen": {
                     "type": "string",
                     "nullable": true,
                     "example": "primaryIdentifier"
                   }
                 }
               }
-            },
-            "organism": {
-              "allOf": [{
-                "$ref": "#/components/schemas/Organism"
-              }]
             },
             "fileID": {
               "type": "integer"
