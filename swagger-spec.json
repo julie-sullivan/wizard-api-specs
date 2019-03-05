@@ -14,6 +14,100 @@
     }
   },
   "paths": {
+    "/isatools": {
+      "post": {
+        "summary": "Start new mine build config entry + upload ISA files",
+        "description": "Combination of the /mine/config and /file/properties/detect endpoints, intended for programmatic access from an ISA web application.",
+        "operationId": "setMineConfigAndDetectFile",
+        "requestBody": {
+          "description": "Config to set for Mine & file(s) to upload",
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [{
+                    "$ref": "#/components/schemas/MineConfig"
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "files": {
+                        "type": "array",
+                        "items": {
+                          "$ref": "#/components/schemas/DataFile"
+                        }
+                      }
+                    }
+                  },
+                  "example": {
+                    "mineName": "MyFirstISAMine",
+                    "privacy": "unlisted",
+                    "licence": "CC0",
+                    "files": [{
+                        "name": "metabolightsmetafile.isa",
+                        "fileContents": "string",
+                        "fileFormat": "isa",
+                        "organism": {
+                          "name": "Homo sapiens",
+                          "taxonID": "9606"
+                        }
+                      },
+                      {
+                        "name": "metabolightsdatafile.tsv",
+                        "fileContents": "string",
+                        "fileFormat": "tsv",
+                        "organism": {
+                          "name": "Homo sapiens",
+                          "taxonID": "9606"
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "allOf": [{
+                    "$ref": "#/components/schemas/MineConfig"
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "files": {
+                        "type": "array",
+                        "items": {
+                          "$ref": "#/components/schemas/DataFile"
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "New mineconfig instance created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "example": "123e4567-e89b-12d3-a456-556642440000"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "string",
+                  "example": "123e4567-e89b-12d3-a456-556642440000"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/mine/config": {
       "post": {
         "summary": "Start new mine build config entry",
@@ -612,9 +706,15 @@
           "options": {
             "type": "array",
             "description": "Array of possible answers the user can choose from.",
-            "example": [
-              {"answerID" : "nucleotides", "answerWording":"Nucleotides"},
-              {"answerID" : "proteins", "answerWording":"Proteins"}],
+            "example": [{
+                "answerID": "nucleotides",
+                "answerWording": "Nucleotides"
+              },
+              {
+                "answerID": "proteins",
+                "answerWording": "Proteins"
+              }
+            ],
             "items": {
               "type": "object",
               "properties": {
