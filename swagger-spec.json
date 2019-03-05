@@ -386,51 +386,7 @@
         }]
       }
     },
-    "/build/trigger": {
-      "post": {
-        "summary": "Begin build of specified mine",
-        "responses": {
-          "200": {
-            "description": "build triggered successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/DataBuild"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/DataBuild"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/build/status": {
-      "get": {
-        "summary": "Retrieve build status of a given mine",
-        "responses": {
-          "200": {
-            "description": "success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/DataBuildStatus"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/DataBuildStatus"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/supplementaryDataSources": {
+   "/supplementaryDataSources": {
       "get": {
         "summary": "Get list of possible supplementary data sources for this mine config",
         "description": "Returns a list of possible external data sources to add to this mine, e.g. GO terms, publications, etc.",
@@ -776,22 +732,6 @@
           }
         }
       },
-      "User": {
-        "type": "object",
-        "required": [
-          "email"
-        ],
-        "properties": {
-          "email": {
-            "type": "string",
-            "example": "alice@mylab.com"
-          },
-          "password": {
-            "type": "string",
-            "format": "password"
-          }
-        }
-      },
       "SupplementaryDataSource": {
         "type": "object",
         "required": [
@@ -826,37 +766,6 @@
           "GOAnnotations",
           "PubMed"
         ]
-      },
-      "DataBuild": {
-        "type": "object",
-        "required": [
-          "mineConfigId"
-        ],
-        "properties": {
-          "mineConfigId": {
-            "type": "integer"
-          }
-        }
-      },
-      "DataBuildStatus": {
-        "type": "object",
-        "required": [
-          "buildStatus"
-        ],
-        "properties": {
-          "buildStatus": {
-            "type": "string",
-            "enum": [
-              "complete",
-              "running",
-              "errored",
-              "not_yet_started"
-            ]
-          },
-          "errorDetails": {
-            "type": "string"
-          }
-        }
       },
       "DataTool": {
         "type": "object",
