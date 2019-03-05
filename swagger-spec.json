@@ -469,10 +469,44 @@
           "licence": {
             "type": "string",
             "example": "CC0"
-          }
+          },
+          "dataSources": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DataSource"
+            }
         },
         "xml": {
           "name": "MineConfig"
+        }
+      },
+      "DataSource": {
+        "type": "object",
+        "required": [
+          "sourceName",
+          "sourceType"
+        ],
+        "properties": {
+          "sourceName": {
+            "type": "string",
+            "example": "uniprot-fasta"
+          },
+          "sourceType": {
+            "type": "string",
+            "example": "fasta"
+          },
+          "dataFiles": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DataFile"
+            }
+          },
+          "projectXMLProperties": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            }
+          }
         }
       },
       "DataFile": {
