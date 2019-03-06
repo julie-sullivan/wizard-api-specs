@@ -25,7 +25,7 @@
             "application/json": {
               "schema": {
                 "allOf": [{
-                    "$ref": "#/components/schemas/MineConfig"
+                    "$ref": "#/components/schemas/MineDescriptor"
                   },
                   {
                     "type": "object",
@@ -68,7 +68,7 @@
             "application/xml": {
               "schema": {
                 "allOf": [{
-                    "$ref": "#/components/schemas/MineConfig"
+                    "$ref": "#/components/schemas/MineDescriptor"
                   },
                   {
                     "type": "object",
