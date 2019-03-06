@@ -108,7 +108,7 @@
         }
       }
     },
-    "/mine/config": {
+    "/mine/descriptors": {
       "post": {
         "summary": "Start new mine build config entry",
         "description": "Create a new entry for a set of uploaded files and associated configs to launch a new mine. This can allocate an id which all file uploads will be associated with.",
@@ -119,12 +119,12 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/MineConfig"
+                "$ref": "#/components/schemas/MineDescriptor"
               }
             },
             "application/xml": {
               "schema": {
-                "$ref": "#/components/schemas/MineConfig"
+                "$ref": "#/components/schemas/MineDescriptor"
               }
             }
           }
@@ -150,7 +150,7 @@
         }
       }
     },
-    "/mine/config/{mineId}": {
+    "/mine/descriptors/{mineId}": {
       "get": {
         "summary": "Get mine config",
         "description": "return configured details (if any) for a given mine id.",
@@ -172,12 +172,12 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/MineConfig"
+                  "$ref": "#/components/schemas/MineDescriptor"
                 }
               },
               "application/xml": {
                 "schema": {
-                  "$ref": "#/components/schemas/MineConfig"
+                  "$ref": "#/components/schemas/MineDescriptor"
                 }
               }
             }
@@ -448,7 +448,7 @@
   ],
   "components": {
     "schemas": {
-      "MineConfig": {
+      "MineDescriptor": {
         "type": "object",
         "required": [
           "id"
@@ -469,44 +469,10 @@
           "licence": {
             "type": "string",
             "example": "CC0"
-          },
-          "dataSources": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/DataSource"
-            }
+          }
         },
         "xml": {
           "name": "MineConfig"
-        }
-      },
-      "DataSource": {
-        "type": "object",
-        "required": [
-          "sourceName",
-          "sourceType"
-        ],
-        "properties": {
-          "sourceName": {
-            "type": "string",
-            "example": "uniprot-fasta"
-          },
-          "sourceType": {
-            "type": "string",
-            "example": "fasta"
-          },
-          "dataFiles": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/DataFile"
-            }
-          },
-          "projectXMLProperties": {
-            "type": "object",
-            "additionalProperties": {
-              "type": "string"
-            }
-          }
         }
       },
       "DataFile": {
