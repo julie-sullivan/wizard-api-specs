@@ -111,11 +111,11 @@
     "/mine/descriptors": {
       "post": {
         "summary": "Start new mine build config entry",
-        "description": "Create a new entry for a set of uploaded files and associated configs to launch a new mine. This can allocate an id which all file uploads will be associated with.",
-        "operationId": "setMineConfig",
+        "description": "Create a new entry for a set of attributes associated with a new mine. This can allocate an id which all mine config",
+        "operationId": "setMineDescriptor",
         "requestBody": {
           "required": false,
-          "description": "Config to set for Mine",
+          "description": "Descriptors to set for Mine",
           "content": {
             "application/json": {
               "schema": {
@@ -131,7 +131,7 @@
         },
         "responses": {
           "200": {
-            "description": "New mineconfig instance created",
+            "description": "New MineDescriptor instance created",
             "content": {
               "application/json": {
                 "schema": {
@@ -152,13 +152,13 @@
     },
     "/mine/descriptors/{mineId}": {
       "get": {
-        "summary": "Get mine config",
+        "summary": "Get mine descriptors",
         "description": "return configured details (if any) for a given mine id.",
-        "operationId": "getMineConfig",
+        "operationId": "getMineDescriptors",
         "parameters": [{
           "name": "mineId",
           "in": "path",
-          "description": "ID of mineconfig to fetch",
+          "description": "ID of mine to fetch",
           "required": true,
           "schema": {
             "type": "string",
@@ -185,7 +185,6 @@
         }
       }
     },
-
     "/file/properties/detect": {
       "post": {
         "summary": "Return identified file type",
@@ -437,6 +436,41 @@
           }
         }
       }
+    },
+    "/mine/config/{mineId}": {
+      "get": {
+        "summary": "Get mine config",
+        "description": "return configured details (if any) for a given mine id.",
+        "operationId": "getMineConfig",
+        "parameters": [{
+          "name": "mineId",
+          "in": "path",
+          "description": "ID of mine to fetch",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "format": "uuid",
+            "example": "123e4567-e89b-12d3-a456-556642440000"
+          }
+        }],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MineConfig"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/MineConfig"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "servers": [{
@@ -489,7 +523,8 @@
             "example": "humanfile.gff"
           },
           "fileContents": {
-            "type": "string"
+            "type": "string",
+            "format": "base64"
           },
           "fileFormat": {
             "type": "string",
@@ -803,6 +838,34 @@
           "type": "integer"
         },
         "description": "ids of tools to use in this mine."
+      },
+      "MineConfig": {
+        "type": "object",
+        "properties": {
+          "mineDescriptor": {
+            "$ref": "#/components/schemas/MineDescriptor"
+          },
+          "dataTools": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DataTool"
+            }
+          },
+          "dataFiles": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DataFile"
+            }
+          },
+          "projectXML": {
+            "type": "string",
+            "format": "base64"
+          },
+          "globalAdditions": {
+            "type": "string",
+            "format": "base64"
+          }
+        } 
       }
     }
   }
