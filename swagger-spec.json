@@ -804,9 +804,16 @@
       },
       "DataTool": {
         "type": "object",
+        "required": [
+          "toolId",
+          "toolName",
+          "toolDescription",
+          "toolPreview",
+          "requiredClasses"
+        ],
         "properties": {
           "toolId": {
-            "type": "integer"
+            "type": "string"
           },
           "toolName": {
             "type": "string",
@@ -835,7 +842,7 @@
       "DataToolResponse": {
         "type": "array",
         "items": {
-          "type": "integer"
+          "type": "string"
         },
         "description": "ids of tools to use in this mine."
       },
